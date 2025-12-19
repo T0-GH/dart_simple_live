@@ -8,28 +8,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ 拉取整个仓库（含子模块）
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: true  # 确保 native_toolchain_c 等路径存在
 
+      # 2️⃣ 安装 Java 17
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # 3️⃣ 安装 Flutter 3.19.6
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.6'
 
+      # 4️⃣ 安装主应用依赖
       - name: Install dependencies
         run: flutter pub get
         working-directory: simple_live_app
 
+      # 5️⃣ Build APK（ARM64，更适合电视盒子）
       - name: Build APK
         run: flutter build apk --release --target-platform android-arm64
         working-directory: simple_live_app
 
+      # 6️⃣ 上传 APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
