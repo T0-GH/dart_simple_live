@@ -102,3 +102,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/lotties/
+
+dependency_overrides:
+  native_toolchain_c:
+    path: ../packages/native_toolchain_c
